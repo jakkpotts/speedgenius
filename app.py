@@ -1,4 +1,3 @@
-# app.py
 from flask import Flask, request, jsonify
 from gpt import send_message
 

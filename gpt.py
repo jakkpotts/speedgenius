@@ -18,3 +18,5 @@ def send_message(query):
   ]
 )
     return completion.choices[0].message.content
+
+# print(send_message(input("Query?")))
