@@ -14,14 +14,14 @@ def handle_request():
 
         # Process and respond to POST request
         result = {"message": "Received your data!", "data": data}
-        return result
+        return jsonify(result)
 
     elif request.method == 'GET':
         # Access GET parameters
         query_param = request.args.get('query', '')  # Default to '' if 'query' is not provided
         if query_param:
             response = send_message(query_param)
-            return jsonify(response)
+            return response
         return jsonify("success")
 
 if __name__ == '__main__':
