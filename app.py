@@ -11,10 +11,12 @@ def handle_request():
         # Uncomment if expecting form or raw data instead
         # data = request.form       # For form data
         # data = request.data       # For raw data
-
+        
+        query = data.get("query")
+        
         # Process and respond to POST request
-        result = {"message": "Received your data!", "data": data}
-        return jsonify(result)
+        result = send_message(query)
+        return jsonify(message=result)
 
     elif request.method == 'GET':
         # Access GET parameters
