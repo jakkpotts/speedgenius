@@ -1,30 +1,29 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from gpt import send_message
 
 app = Flask(__name__)
 
-@app.route('/genius', methods=['POST', 'GET'])
+# Route to handle both GET (serving the form) and POST (processing the query)
+@app.route('/genius', methods=['GET', 'POST'])
 def handle_request():
     if request.method == 'POST':
-        # Access POST data
+        # Access POST data (JSON format expected)
         data = request.get_json()  # For JSON data
-        # Uncomment if expecting form or raw data instead
-        # data = request.form       # For form data
-        # data = request.data       # For raw data
-        
         query = data.get("query")
         
-        # Process and respond to POST request
-        result = send_message(query)
-        return jsonify(message=result)
+        if not query:
+            return jsonify({"error": "No query provided"}), 400
+        
+        try:
+            # Process the query (using your send_message function)
+            result = send_message(query)
+            return jsonify({"message": result})
+        except Exception as e:
+            return jsonify({"error": f"Error processing query: {str(e)}"}), 500
 
     elif request.method == 'GET':
-        # Access GET parameters
-        query_param = request.args.get('query', '')  # Default to '' if 'query' is not provided
-        if query_param:
-            response = send_message(query_param)
-            return jsonify(message=response)
-        return jsonify("success")
+        # If it's a GET request to serve the form, render the genius.html template
+        return render_template('genius.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
