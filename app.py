@@ -14,7 +14,7 @@ def handle_request():
 
         # Process and respond to POST request
         result = {"message": "Received your data!", "data": data}
-        return jsonify(result)
+        return result
 
     elif request.method == 'GET':
         # Access GET parameters
