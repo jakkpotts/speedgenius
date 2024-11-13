@@ -1,7 +1,10 @@
 from flask import Flask, request, jsonify, render_template
+from flask_wtf.csrf import CSRFProtect
 from gpt import send_message
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static')
+
+csrf = CSRFProtect(app)
 
 # Route to handle both GET (serving the form) and POST (processing the query)
 @app.route('/genius', methods=['GET', 'POST'])
