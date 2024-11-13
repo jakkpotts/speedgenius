@@ -21,7 +21,7 @@ def handle_request():
         query_param = request.args.get('query', '')  # Default to '' if 'query' is not provided
         if query_param:
             response = send_message(query_param)
-            return response
+            return jsonify(message=response)
         return jsonify("success")
 
 if __name__ == '__main__':
