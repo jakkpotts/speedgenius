@@ -1,9 +1,13 @@
 from flask import Flask, request, jsonify, render_template
 from flask_wtf.csrf import CSRFProtect
 from gpt import send_message
+from dotenv import load_dotenv
+import os
 
+load_dotenv()
 app = Flask(__name__, static_folder='static')
 
+app.config['SECRET_KEY'] = os.getenv("SECRET_KEY")
 csrf = CSRFProtect(app)
 
 # Route to handle both GET (serving the form) and POST (processing the query)

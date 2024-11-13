@@ -3,13 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Submit Query{% endblock %}</title>
-    
-    {# Use url_for for static files #}
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-    
-    {# Add custom styles directly or in a separate CSS file #}
-    <style>
+    <title>Submit Query</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">    <style>
         .loading {
             opacity: 0.7;
             transition: opacity 0.3s;
@@ -18,8 +13,6 @@
             min-height: 100vh;
             background: linear-gradient(135deg, #f6f8fa 0%, #eef2f5 100%);
         }
-        
-        /* Add any additional custom styles here */
         @media (max-width: 640px) {
             .query-container {
                 padding: 1rem;
@@ -36,7 +29,7 @@
             </header>
 
             <form onsubmit="submitQuery(event)" class="space-y-4 mb-8">
-                {{ form.csrf_token }}  {# If using Flask-WTF #}
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 <div>
                     <label for="query" class="block text-sm font-medium text-gray-700 mb-2">Your Query</label>
                     <div class="relative">
@@ -85,11 +78,11 @@
             responseDiv.textContent = 'Processing your query...';
             
             try {
-                const response = await fetch("{{ url_for('genius') }}", {  // Use Flask's url_for
+                const response = await fetch("{{ url_for('genius') }}", {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'X-CSRFToken': "{{ csrf_token() }}"  // If using CSRF protection
+                        'X-CSRFToken': document.querySelector('input[name="csrf_token"]').value
                     },
                     body: JSON.stringify({ query: queryInput.value })
                 });
