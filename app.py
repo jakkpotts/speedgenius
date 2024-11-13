@@ -5,7 +5,7 @@ app = Flask(__name__, static_folder='static')
 
 # Route to handle both GET (serving the form) and POST (processing the query)
 @app.route('/genius', methods=['GET', 'POST'])
-def handle_request():
+def genius():
     if request.method == 'POST':
         # Access POST data (JSON format expected)
         data = request.get_json()  # For JSON data
